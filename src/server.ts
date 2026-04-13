@@ -3,7 +3,7 @@ import cors from 'cors';
 import llmRoutes from './routes/llm.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(cors());
