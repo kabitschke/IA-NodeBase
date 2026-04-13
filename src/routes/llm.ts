@@ -8,40 +8,56 @@ import {
     createOllamaClient
 } from '../services/index.js';
 import { Output } from 'ai';
+import { bookFinder } from '../services/openai.service.js';
 
 const router = express.Router();
 
 // Route para OpenAI
 router.get('/openai', async (req, res) => {
-    const client = createOpenAIClient();
+    const book = await bookFinder("O livro relata uma conversa entre uma pessoa e o Diabo");
 
-    const response = await client.responses.create({
-        model: 'gpt-5-nano',
+    if (!book) {
+        res.json({ errors: 'Livro não encontrado' });
+        return;
+    }
 
-        reasoning: {
-            effort: 'low'
-        },
+    res.json({ error: null, book });
 
-        input: [
-            {
-                role: 'system',
-                content: [
-                    { type: 'input_text', text: "Seja direto em todas as respostas." }
-                ]
 
-            },
 
-            {
-                role: 'user',
-                content: [
-                    { type: 'input_text', text: "Qual é o sentido da vida?" }
-                ]
 
-            }
-        ]
-    });
 
-    res.json({ output: response.output_text });
+
+
+    // const client = createOpenAIClient();
+
+    // const response = await client.responses.create({
+    //     model: 'gpt-5-nano',
+
+    //     reasoning: {
+    //         effort: 'low'
+    //     },
+
+    //     input: [
+    //         {
+    //             role: 'system',
+    //             content: [
+    //                 { type: 'input_text', text: "Seja direto em todas as respostas." }
+    //             ]
+
+    //         },
+
+    //         {
+    //             role: 'user',
+    //             content: [
+    //                 { type: 'input_text', text: "Qual é o sentido da vida?" }
+    //             ]
+
+    //         }
+    //     ]
+    // });
+
+    // res.json({ output: response.output_text });
 });
 
 // Route para Anthropic (Claude)
