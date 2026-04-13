@@ -7,17 +7,41 @@ import {
     createGroqClient,
     createOllamaClient
 } from '../services/index.js';
+import { Output } from 'ai';
 
 const router = express.Router();
 
 // Route para OpenAI
 router.get('/openai', async (req, res) => {
     const client = createOpenAIClient();
-    res.json({
-        provider: 'OpenAI',
-        message: 'Cliente OpenAI criado com sucesso',
-        client: !!client
+
+    const response = await client.responses.create({
+        model: 'gpt-5-nano',
+
+        reasoning: {
+            effort: 'low'
+        },
+
+        input: [
+            {
+                role: 'system',
+                content: [
+                    { type: 'input_text', text: "Seja direto em todas as respostas." }
+                ]
+
+            },
+
+            {
+                role: 'user',
+                content: [
+                    { type: 'input_text', text: "Qual é o sentido da vida?" }
+                ]
+
+            }
+        ]
     });
+
+    res.json({ output: response.output_text });
 });
 
 // Route para Anthropic (Claude)
