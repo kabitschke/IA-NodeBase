@@ -52,6 +52,10 @@ OLLAMA_BASE_URL=http://localhost:11434
 PORT=3002
 ```
 
+```
+cp .env.example .env
+``` 
+
 > O `OLLAMA_BASE_URL` é opcional. O valor padrão é `http://localhost:11434`.
 
 ## Scripts úteis

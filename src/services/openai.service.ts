@@ -29,7 +29,7 @@ export const bookFinder = async (search: string) => {
             { role: 'user', content: `Me de as informações do livro que possui essas caracteristicas: ${search}. Se o livre existir em português, me de as informações em português.` }
         ],
         text: {
-            format: zodTextFormat(bookResponseSchema, "book"),
+            format: zodTextFormat(bookResponseSchema, "event"),
         }
     });
     return response.output_parsed ?? false;
